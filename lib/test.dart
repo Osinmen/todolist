@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:todolist/extensions/sized_box_extensions.dart';
 import 'package:todolist/themes/colors.dart';
 import 'package:todolist/themes/textThemes.dart';
+import 'package:todolist/widgets/task_card/task_card.dart';
 
 class Test extends StatefulWidget {
   const Test({super.key});
@@ -14,12 +16,16 @@ class Test extends StatefulWidget {
 class _TestState extends State<Test> {
   Future<void> addtasks() async {
     final tasks = await FirebaseFirestore.instance.collection("tasks").add({
-      "title ": titileController,
-      "description": descriptionController,
+      "title": titleController.text.trim(),
+      "description": descriptionController.text.trim(),
+      "creator" : FirebaseAuth.instance.currentUser!.uid,
+      "date Created" : FieldValue.serverTimestamp()
     });
+  
+    print(tasks.id);
   }
 
-  final TextEditingController titileController = TextEditingController();
+  final TextEditingController titleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -32,8 +38,8 @@ class _TestState extends State<Test> {
       }),
       backgroundColor: Colors.black,
       appBar: AppBar(),
-      body: FutureBuilder(
-        future: FirebaseFirestore.instance.collection("tasks").get(),
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance.collection("tasks").snapshots(),
         builder: (context, snapshot) {
          if(snapshot.hasData) {
            return ListView.builder(
@@ -55,7 +61,7 @@ class _TestState extends State<Test> {
          }
          else if(snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: const CircularProgressIndicator());
-         } else if(snapshot.data!.docs.isEmpty) {
+         } else if( snapshot.hasData && snapshot.data!.docs.isEmpty) {
           return Center(
             child: Center(
               child: Container(
@@ -100,26 +106,20 @@ class _TestState extends State<Test> {
                   ),
 
                   015.height,
-                  TextField(
-                    style: TextStyle(color: Colors.white, fontSize: 15),
-                    controller: titileController,
+                          TextField(
+                    controller: titleController,
                     decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.symmetric(
-                        vertical: 15,
-                        horizontal: 10,
-                      ),
-
-                      hintText: "Add Task Here",
+                      hintText: "Title",
                       hintStyle: AppTextStyles.heading2,
-                      border: OutlineInputBorder(
+                      border: UnderlineInputBorder(borderSide: BorderSide.none),
+                      focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                         borderSide: BorderSide(
                           width: 1.0,
                           color: AppColors.white,
                         ),
                       ),
-                    ),
-                  ),
+                    ),),
                   10.height,
                   TextField(
                     controller: descriptionController,
@@ -153,25 +153,3 @@ class _TestState extends State<Test> {
   }
 }
 
-class TaskCard extends StatelessWidget {
-  String? title;
-  String? description;
-  TaskCard({super.key, required this.title, required this.description});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.textPrimary,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10),
-        child: ListTile(
-          title: Text(title.toString()),
-          subtitle: Text(description.toString()),
-        ),
-      ),
-    );
-  }
-}

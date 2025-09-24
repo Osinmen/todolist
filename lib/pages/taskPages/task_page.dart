@@ -5,10 +5,12 @@ import 'package:todolist/extensions/sized_box_extensions.dart';
 import 'package:todolist/gen/assets.gen.dart';
 import 'package:todolist/providers/task_model.dart';
 import 'package:todolist/providers/task_provider.dart';
+import 'package:todolist/test.dart';
 import 'package:todolist/themes/colors.dart';
 import 'package:todolist/themes/textThemes.dart';
 import 'package:todolist/widgets/bottombar/bottombar..dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:todolist/widgets/task_card/task_card.dart';
 
 class TaskPage extends StatefulWidget {
   const TaskPage({super.key});
@@ -19,7 +21,20 @@ class TaskPage extends StatefulWidget {
 
 class _TaskPageState extends State<TaskPage> {
   final TextEditingController controller = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
+  //function to ad tasks to firebase firestore using
 
+  Future<void> addTasksToDb() async {
+    final tasks = await FirebaseFirestore.instance
+        .collection("user_tasks")
+        .add({
+          "title": controller.text.trim(),
+          "Date Created": FieldValue.serverTimestamp(),
+          "creator": FirebaseAuth.instance.currentUser!.uid,
+          "description": descriptionController.text.trim(),
+          
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,16 +42,29 @@ class _TaskPageState extends State<TaskPage> {
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
-        leading: Assets.icons.sort.image(),
+        leading: GestureDetector(
+          onTap: () {
+            Future <void> signout() async{
+              await FirebaseAuth.instance.signOut();
+            }
+          },
+          child: Assets.icons.sort.image()),
         title: Text("Index", style: AppTextStyles.heading2),
         centerTitle: true,
-        actions: [Padding(
-          padding: const EdgeInsets.only(right:10), 
-          child: CircleAvatar(backgroundColor: Colors.blue, radius: 23))],
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 10),
+            child: CircleAvatar(backgroundColor: Colors.blue, radius: 23),
+          ),
+        ],
       ),
-      body: Consumer<TaskProvider>(
-        builder: (context, value, child) {
-          if (value.list.isEmpty) {
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection("user_tasks")
+          .where("creator", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
             return SingleChildScrollView(
               child: Column(
                 children: [
@@ -46,33 +74,52 @@ class _TaskPageState extends State<TaskPage> {
                       child: Assets.images.checklistRafiki1.image(),
                     ),
                   ),
-                  Text("What do you want to do today?", style: AppTextStyles.heading2,), 
+                  Text(
+                    "What do you want to do today?",
+                    style: AppTextStyles.heading2,
+                  ),
                   15.height,
-                  Text("Tap + to add to your tasks",
-                  style: TextStyle(color: Colors.white, 
-                  fontSize: 12, 
-                  fontWeight: FontWeight.bold),)
+                  Text(
+                    "Tap + to add to your tasks",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ],
               ),
             );
-          } else {
-            return ListView.builder(
-              itemCount: value.list.length,
-              itemBuilder: (context, index) {
-                return Container(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  decoration: BoxDecoration(
-                    color: AppColors.textPrimary,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: ListTile(
-                    title: Text("${value.list[index].title}"),
-                    subtitle: Text("${value.list[index].description}"),
-                    leading: Text("${value.list[index].id}"),
-                  ),
-                );
-              },
+          } else if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            throw Exception("something wrong pleae restatrt");
+          } else if (snapshot.hasData) {
+            return Expanded(
+              child: ListView.builder(
+                itemCount: snapshot.data!.docs.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    
+                    padding: const EdgeInsets.all(15),
+                    child: Dismissible(
+                      key: ValueKey(index),
+                      onDismissed: (direction) {
+                        if(direction == DismissDirection.endToStart) {
+                          FirebaseFirestore.instance.collection("saved_tasks").doc().delete(); 
+                        }
+                      },
+                      child: TaskCard(
+                        title: snapshot.data!.docs[index].data()["title"],
+                        description: snapshot.data!.docs[index].data()["description"],
+                      ),
+                    ),
+                  );
+                },
+              ),
             );
+          } else {
+            return Text("hmm i dnt know still try to reload");
           }
         },
       ),
@@ -83,12 +130,11 @@ class _TaskPageState extends State<TaskPage> {
         elevation: 0.0,
         backgroundColor: AppColors.secondaryButtonColor,
         shape: const CircleBorder(),
-      
+
         child: Assets.icons.add.image(),
         onPressed: () {
           //implement to do action
           _openScreenDialog();
-          
         },
       ),
     );
@@ -116,7 +162,6 @@ class _TaskPageState extends State<TaskPage> {
                       fontSize: 14,
                     ),
                   ),
-
                   015.height,
                   TextField(
                     style: TextStyle(color: Colors.white, fontSize: 15),
@@ -126,7 +171,6 @@ class _TaskPageState extends State<TaskPage> {
                         vertical: 15,
                         horizontal: 10,
                       ),
-
                       hintText: "Add Task Here",
                       hintStyle: AppTextStyles.heading2,
                       border: OutlineInputBorder(
@@ -140,14 +184,12 @@ class _TaskPageState extends State<TaskPage> {
                   ),
                   10.height,
                   TextField(
-                    focusNode: FocusNode(),
+                    controller: descriptionController,
                     decoration: InputDecoration(
-                      hintText: "Description", 
-                      hintStyle: AppTextStyles.heading2, 
-                      border: UnderlineInputBorder(
-                        borderSide: BorderSide.none
-                      ), 
-                      focusedBorder:  OutlineInputBorder(
+                      hintText: "Description",
+                      hintStyle: AppTextStyles.heading2,
+                      border: UnderlineInputBorder(borderSide: BorderSide.none),
+                      focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                         borderSide: BorderSide(
                           width: 1.0,
@@ -156,17 +198,14 @@ class _TaskPageState extends State<TaskPage> {
                       ),
                     ),
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      context.read<TaskProvider>().addTasks(
-                        TaskModel(
-                          title: controller.text,
-                          description: "jdkjd s",
-                        ),
-                      );
-                      Navigator.pop(context);
-                    },
-                    child: Text("Add Task"),
+                  Center(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        addTasksToDb();
+                        Navigator.pop(context);
+                      },
+                      child: Text("Add Task"),
+                    ),
                   ),
                 ],
               ),
@@ -177,5 +216,3 @@ class _TaskPageState extends State<TaskPage> {
     );
   }
 }
-
-
