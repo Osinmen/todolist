@@ -1,8 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:todolist/extensions/sized_box_extensions.dart';
-import 'package:todolist/providers/task_model.dart';
-import 'package:todolist/providers/task_provider.dart';
+import 'package:todolist/themes/colors.dart';
+import 'package:todolist/themes/textThemes.dart';
 
 class Test extends StatefulWidget {
   const Test({super.key});
@@ -12,52 +12,166 @@ class Test extends StatefulWidget {
 }
 
 class _TestState extends State<Test> {
-  TextEditingController controller = TextEditingController();
-  TextEditingController controller2 = TextEditingController();
+  Future<void> addtasks() async {
+    final tasks = await FirebaseFirestore.instance.collection("tasks").add({
+      "title ": titileController,
+      "description": descriptionController,
+    });
+  }
 
+  final TextEditingController titileController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return Consumer<TaskProvider>(
-      builder: (context, value, child) {
-        return Scaffold(
-          backgroundColor: Colors.white,
-          body: Column(
-            children: [
-              Text("title"),
-              TextField(controller: controller),
-              10.height,
-              TextField(controller: controller2),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: value.list.length,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      padding: const EdgeInsets.symmetric(vertical: 15),
-                      color: Colors.grey,
-                      child: ListTile(
-                        title: Text(value.list[index].title.toString()),
-                        subtitle: Text(value.list[index].description.toString()),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
-          floatingActionButton: FloatingActionButton(
-            backgroundColor: Colors.blue,
-            child: Icon(Icons.add, color: Colors.white),
-            onPressed: () {
-              context.read<TaskProvider>().addTasks(
-                TaskModel(
-                  title: controller.text,
-                  description: controller2.text,
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.white,
+        child: Icon(Icons.add, color: Colors.blue,),
+        onPressed: () {
+          openDialog();
+      }),
+      backgroundColor: Colors.black,
+      appBar: AppBar(),
+      body: FutureBuilder(
+        future: FirebaseFirestore.instance.collection("tasks").get(),
+        builder: (context, snapshot) {
+         if(snapshot.hasData) {
+           return ListView.builder(
+            itemCount: snapshot.data!.docs.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 15),
+                child: TaskCard(
+                  title: snapshot.data!.docs[index].data()["title"],
+                  description: snapshot.data!.docs[index].data()["description"]
                 ),
               );
             },
+          );
+          
+         }
+        else if(snapshot.hasError) {
+          return Center(child: Text("this is the container to show there is erro"),);
+         }
+         else if(snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: const CircularProgressIndicator());
+         } else if(snapshot.data!.docs.isEmpty) {
+          return Center(
+            child: Center(
+              child: Container(
+                height: 150,
+                width: 150,
+                color: Colors.red,
+                child: Text("this is a fucking red flag"),
+              ),
+            ),
+          );
+         }
+         else {
+          return Text("na you come know of");
+         }
+        
+        },
+      ),
+    );
+  }
+
+  Future<void> openDialog() async {
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          backgroundColor: Colors.blue,
+          insetPadding: const EdgeInsets.all(20),
+          child: SizedBox(
+            height: 300,
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Add Task",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                    ),
+                  ),
+
+                  015.height,
+                  TextField(
+                    style: TextStyle(color: Colors.white, fontSize: 15),
+                    controller: titileController,
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.symmetric(
+                        vertical: 15,
+                        horizontal: 10,
+                      ),
+
+                      hintText: "Add Task Here",
+                      hintStyle: AppTextStyles.heading2,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: BorderSide(
+                          width: 1.0,
+                          color: AppColors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                  10.height,
+                  TextField(
+                    controller: descriptionController,
+                    decoration: InputDecoration(
+                      hintText: "Description",
+                      hintStyle: AppTextStyles.heading2,
+                      border: UnderlineInputBorder(borderSide: BorderSide.none),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: BorderSide(
+                          width: 1.0,
+                          color: AppColors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      addtasks();
+                      Navigator.pop(context);
+                    },
+                    child: Text("Add Task"),
+                  ),
+                ],
+              ),
+            ),
           ),
         );
       },
+    );
+  }
+}
+
+class TaskCard extends StatelessWidget {
+  String? title;
+  String? description;
+  TaskCard({super.key, required this.title, required this.description});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.textPrimary,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: ListTile(
+          title: Text(title.toString()),
+          subtitle: Text(description.toString()),
+        ),
+      ),
     );
   }
 }

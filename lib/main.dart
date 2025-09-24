@@ -47,10 +47,9 @@ class MyApp extends StatelessWidget {
             return CircularProgressIndicator();
           }
           if (snapshot.data != null) {
-            return TaskPage();
+            return Test();
           }
-
-          return Signupscreen();
+          return Test();
         },
       ),
     );
