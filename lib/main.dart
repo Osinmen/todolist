@@ -6,6 +6,7 @@ import 'package:todolist/pages/authentication/loginScreen.dart';
 import 'package:todolist/pages/authentication/signupScreen.dart';
 import 'package:todolist/pages/initialPages/onboarding.dart';
 import 'package:todolist/pages/taskPages/task_page.dart';
+import 'package:todolist/pages/user_profile/user_profile.dart';
 import 'package:todolist/providers/task_provider.dart';
 import 'package:todolist/test.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -40,18 +41,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: StreamBuilder(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
-          }
-          if (snapshot.data != null) {
-            return const TaskPage();
-          }
-          return Loginscreen();
-        },
-      ),
+      home: const UserProfile()
     );
   }
 }

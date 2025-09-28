@@ -20,6 +20,10 @@ class $AssetsIconsGen {
   /// File path: assets/icons/apple.png
   AssetGenImage get apple => const AssetGenImage('assets/icons/apple.png');
 
+  /// File path: assets/icons/arrow-left.png
+  AssetGenImage get arrowLeft =>
+      const AssetGenImage('assets/icons/arrow-left.png');
+
   /// File path: assets/icons/backButton.png
   AssetGenImage get backButton =>
       const AssetGenImage('assets/icons/backButton.png');
@@ -35,14 +39,37 @@ class $AssetsIconsGen {
   AssetGenImage get fingerprintWhite =>
       const AssetGenImage('assets/icons/fingerprint_white.png');
 
+  /// File path: assets/icons/flash.png
+  AssetGenImage get flash => const AssetGenImage('assets/icons/flash.png');
+
   /// File path: assets/icons/google.png
   AssetGenImage get google => const AssetGenImage('assets/icons/google.png');
 
   /// File path: assets/icons/home.png
   AssetGenImage get home => const AssetGenImage('assets/icons/home.png');
 
+  /// File path: assets/icons/info-circle.png
+  AssetGenImage get infoCircle =>
+      const AssetGenImage('assets/icons/info-circle.png');
+
+  /// File path: assets/icons/key.png
+  AssetGenImage get key => const AssetGenImage('assets/icons/key.png');
+
+  /// File path: assets/icons/like.png
+  AssetGenImage get like => const AssetGenImage('assets/icons/like.png');
+
+  /// File path: assets/icons/logout.png
+  AssetGenImage get logout => const AssetGenImage('assets/icons/logout.png');
+
+  /// File path: assets/icons/menu.png
+  AssetGenImage get menu => const AssetGenImage('assets/icons/menu.png');
+
   /// File path: assets/icons/profile.png
   AssetGenImage get profile => const AssetGenImage('assets/icons/profile.png');
+
+  /// File path: assets/icons/setting-2.png
+  AssetGenImage get setting2 =>
+      const AssetGenImage('assets/icons/setting-2.png');
 
   /// File path: assets/icons/sort.png
   AssetGenImage get sort => const AssetGenImage('assets/icons/sort.png');
@@ -51,13 +78,21 @@ class $AssetsIconsGen {
   List<AssetGenImage> get values => [
     add,
     apple,
+    arrowLeft,
     backButton,
     calendar,
     clock,
     fingerprintWhite,
+    flash,
     google,
     home,
+    infoCircle,
+    key,
+    like,
+    logout,
+    menu,
     profile,
+    setting2,
     sort,
   ];
 }
