@@ -15,24 +15,22 @@ class Loginscreen extends StatefulWidget {
   @override
   State<Loginscreen> createState() => _LoginscreenState();
 }
-  
-  
+
 class _LoginscreenState extends State<Loginscreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-    TextStyle _textStyle = TextStyle();
+  TextStyle _textStyle = TextStyle();
   void _isFormFilled() {
     setState(() {
       bool allFilled =
           _emailController.text.isNotEmpty &&
           _passwordController.text.isNotEmpty;
-          
 
       if (allFilled) {
         _buttonColor = AppColors.secondaryButtonColor;
         _textStyle = AppTextStyles.heading2;
-        _buttonAction = () async{
+        _buttonAction = () async {
           print("implement login function");
           await loginUserwithEmailandPassword();
         };
@@ -48,24 +46,24 @@ class _LoginscreenState extends State<Loginscreen> {
     });
   }
 
-
   Future<void> loginUserwithEmailandPassword() async {
     try {
-      FirebaseAuth.instance.signInWithEmailAndPassword(email: _emailController.text.trim(), password: _passwordController.text.trim());
-    } on FirebaseAuthException catch(e) {
+      FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
+    } on FirebaseAuthException catch (e) {
       print(e.message);
     }
-  } 
-  
-  
+  }
+
   VoidCallback? _buttonAction;
   Color _buttonColor = AppColors.secondaryButtonColor.withOpacity(0.5);
 
   void dispose() {
-
     super.dispose();
     _emailController.dispose();
-  _passwordController.dispose();
+    _passwordController.dispose();
   }
 
   void initState() {
@@ -73,6 +71,7 @@ class _LoginscreenState extends State<Loginscreen> {
     _emailController.addListener(_isFormFilled);
     _passwordController.addListener(_isFormFilled);
   }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -106,55 +105,63 @@ class _LoginscreenState extends State<Loginscreen> {
                 Loginbutton2(
                   textStyle: _textStyle,
                   buttonAction: _buttonAction,
-                centerText: "Login",
-                color: _buttonColor,
-                ), 
-                40.height, 
-                   Row(
-                    children: [
-                      Expanded(
-                        child: Divider(thickness: 1.0, color: Colors.grey),
-                      ),
-                      10.width,
-                      Text("Or", style: AppTextStyles.heading2),
-                      10.width,
-                      Expanded(
-                        child: Divider(thickness: 1.0, color: Colors.grey),
-                      ),
-                    ],
-                  ),
-                  40.height,
-                    ServicesButton(
-                    centerText: "Login with Google",
-                    imagePath: Assets.icons.google.path,
-                  ),
-                  15.height, 
-                   ServicesButton(
-                    centerText: "Login with Apple",
-                    imagePath: Assets.icons.apple.path,
-                  ),
-                  50.height, 
-                   Row(
+                  centerText: "Login",
+                  color: _buttonColor,
+                ),
+                40.height,
+                Row(
+                  children: [
+                    Expanded(
+                      child: Divider(thickness: 1.0, color: Colors.grey),
+                    ),
+                    10.width,
+                    Text("Or", style: AppTextStyles.heading2),
+                    10.width,
+                    Expanded(
+                      child: Divider(thickness: 1.0, color: Colors.grey),
+                    ),
+                  ],
+                ),
+                40.height,
+                ServicesButton(
+                  centerText: "Login with Google",
+                  imagePath: Assets.icons.google.path,
+                ),
+                15.height,
+                ServicesButton(
+                  centerText: "Login with Apple",
+                  imagePath: Assets.icons.apple.path,
+                ),
+                50.height,
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Don't have an account?", style: TextStyle(
-                      color: Colors.white
-                    ),), 
-                    5.width, 
+                    Text(
+                      "Don't have an account?",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    5.width,
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) {
-                          return const Signupscreen();
-                        }));
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return const Signupscreen();
+                            },
+                          ),
+                        );
                       },
-                      child: Text("Register", style: TextStyle(
-                        color: Colors.grey, 
-                        fontWeight: FontWeight.bold
-                      ),),
-                    )
+                      child: Text(
+                        "Register",
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
                   ],
-                ), 
-            
+                ),
               ],
             ),
           ),

@@ -32,7 +32,6 @@ class _TaskPageState extends State<TaskPage> {
           "Date Created": FieldValue.serverTimestamp(),
           "creator": FirebaseAuth.instance.currentUser!.uid,
           "description": descriptionController.text.trim(),
-          
         });
   }
 
@@ -44,11 +43,12 @@ class _TaskPageState extends State<TaskPage> {
         backgroundColor: Colors.black,
         leading: GestureDetector(
           onTap: () {
-            Future <void> signout() async{
+            Future<void> signout() async {
               await FirebaseAuth.instance.signOut();
             }
           },
-          child: Assets.icons.sort.image()),
+          child: Assets.icons.sort.image(),
+        ),
         title: Text("Index", style: AppTextStyles.heading2),
         centerTitle: true,
         actions: [
@@ -61,7 +61,7 @@ class _TaskPageState extends State<TaskPage> {
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection("user_tasks")
-          .where("creator", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+            .where("creator", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
             .snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
@@ -100,18 +100,21 @@ class _TaskPageState extends State<TaskPage> {
                 itemCount: snapshot.data!.docs.length,
                 itemBuilder: (context, index) {
                   return Padding(
-                    
                     padding: const EdgeInsets.all(15),
                     child: Dismissible(
                       key: ValueKey(index),
                       onDismissed: (direction) {
-                        if(direction == DismissDirection.endToStart) {
-                          FirebaseFirestore.instance.collection("saved_tasks").doc().delete(); 
+                        if (direction == DismissDirection.endToStart) {
+                          FirebaseFirestore.instance
+                              .collection("saved_tasks")
+                              .doc()
+                              .delete();
                         }
                       },
                       child: TaskCard(
                         title: snapshot.data!.docs[index].data()["title"],
-                        description: snapshot.data!.docs[index].data()["description"],
+                        description: snapshot.data!.docs[index]
+                            .data()["description"],
                       ),
                     ),
                   );
