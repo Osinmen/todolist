@@ -8,12 +8,13 @@ class Remainingtaskbutton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 10 ,  horizontal: 20),
+
+      padding: const EdgeInsets.symmetric(vertical: 17 ,  horizontal: 20),
       decoration: BoxDecoration(
         color: AppColors.textPrimary, 
         borderRadius: BorderRadius.circular(10), 
       ),
-      child: Text(text.toString()),
+      child: Text(text.toString(), style: TextStyle(color: Colors.white),),
     );
   }
 }

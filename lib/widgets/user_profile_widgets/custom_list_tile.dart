@@ -15,12 +15,16 @@ class CustomListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: islogout == true ? () async{
-        await FirebaseAuth.instance.signOut();
-      } :  () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return routeDestination;
-        }));
+      onTap: () {
+        if(islogout){
+          () async {
+            await FirebaseAuth.instance.signOut();
+          } ;
+        } else if(routeDestination != null) {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return routeDestination;
+          }));
+        }
       },
       child: ListTile(
         title: Text("$title", style: TextStyle(color: Colors.white),),

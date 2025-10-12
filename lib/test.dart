@@ -5,6 +5,8 @@ import 'package:todolist/extensions/sized_box_extensions.dart';
 import 'package:todolist/themes/colors.dart';
 import 'package:todolist/themes/textThemes.dart';
 import 'package:todolist/widgets/task_card/task_card.dart';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 
 class Test extends StatefulWidget {
   const Test({super.key});
@@ -18,12 +20,15 @@ class _TestState extends State<Test> {
     final tasks = await FirebaseFirestore.instance.collection("tasks").add({
       "title": titleController.text.trim(),
       "description": descriptionController.text.trim(),
-      "creator" : FirebaseAuth.instance.currentUser!.uid,
-      "date Created" : FieldValue.serverTimestamp()
+      "creator": FirebaseAuth.instance.currentUser!.uid,
+      "date Created": FieldValue.serverTimestamp(),
     });
-  
+
     print(tasks.id);
   }
+  //this is the function that is used to pick image from gallery 
+  
+ 
 
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
@@ -32,51 +37,50 @@ class _TestState extends State<Test> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.white,
-        child: Icon(Icons.add, color: Colors.blue,),
+        child: Icon(Icons.add, color: Colors.blue),
         onPressed: () {
           openDialog();
-      }),
+        },
+      ),
       backgroundColor: Colors.black,
       appBar: AppBar(),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance.collection("tasks").snapshots(),
         builder: (context, snapshot) {
-         if(snapshot.hasData) {
-           return ListView.builder(
-            itemCount: snapshot.data!.docs.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 15),
-                child: TaskCard(
-                  title: snapshot.data!.docs[index].data()["title"],
-                  description: snapshot.data!.docs[index].data()["description"]
+          if (snapshot.hasData) {
+            return ListView.builder(
+              itemCount: snapshot.data!.docs.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  child: TaskCard(
+                    title: snapshot.data!.docs[index].data()["title"],
+                    description: snapshot.data!.docs[index]
+                        .data()["description"],
+                  ),
+                );
+              },
+            );
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Text("this is the container to show there is erro"),
+            );
+          } else if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: const CircularProgressIndicator());
+          } else if (snapshot.hasData && snapshot.data!.docs.isEmpty) {
+            return Center(
+              child: Center(
+                child: Container(
+                  height: 150,
+                  width: 150,
+                  color: Colors.red,
+                  child: Text("this is a fucking red flag"),
                 ),
-              );
-            },
-          );
-          
-         }
-        else if(snapshot.hasError) {
-          return Center(child: Text("this is the container to show there is erro"),);
-         }
-         else if(snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: const CircularProgressIndicator());
-         } else if( snapshot.hasData && snapshot.data!.docs.isEmpty) {
-          return Center(
-            child: Center(
-              child: Container(
-                height: 150,
-                width: 150,
-                color: Colors.red,
-                child: Text("this is a fucking red flag"),
               ),
-            ),
-          );
-         }
-         else {
-          return Text("na you come know of");
-         }
-        
+            );
+          } else {
+            return Text("na you come know of");
+          }
         },
       ),
     );
@@ -106,7 +110,7 @@ class _TestState extends State<Test> {
                   ),
 
                   015.height,
-                          TextField(
+                  TextField(
                     controller: titleController,
                     decoration: InputDecoration(
                       hintText: "Title",
@@ -119,7 +123,8 @@ class _TestState extends State<Test> {
                           color: AppColors.white,
                         ),
                       ),
-                    ),),
+                    ),
+                  ),
                   10.height,
                   TextField(
                     controller: descriptionController,
@@ -152,4 +157,3 @@ class _TestState extends State<Test> {
     );
   }
 }
-

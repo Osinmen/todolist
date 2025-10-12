@@ -74,6 +74,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/sort.png
   AssetGenImage get sort => const AssetGenImage('assets/icons/sort.png');
 
+  /// File path: assets/icons/user.png
+  AssetGenImage get user => const AssetGenImage('assets/icons/user.png');
+
   /// List of all assets
   List<AssetGenImage> get values => [
     add,
@@ -94,6 +97,7 @@ class $AssetsIconsGen {
     profile,
     setting2,
     sort,
+    user,
   ];
 }
 
