@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:todolist/custom_classes/change_account_name/changeAccountName.dart';
 import 'package:todolist/extensions/sized_box_extensions.dart';
 import 'package:todolist/gen/assets.gen.dart';
 import 'package:todolist/pages/authentication/signupScreen.dart';
@@ -64,12 +65,24 @@ class _UserProfileState extends State<UserProfile> {
               CustomListTile(
                 title: "Change account name",
                 leading: Assets.icons.user.path,
-               onTap: () {},
+               onTap: () async{
+                await Changeaccountname.changeAccountName(context);
+               },
                 
               ),
             
               CustomListTile(
-                onTap: () {},
+                onTap: () {
+                   () async {
+     await showDialog(
+       context: context,
+       builder: (context) => AlertDialog(
+         title: Text('Test'),
+         content: Text('Dialog works!'),
+       ),
+     );
+   };
+                },
                 title: "Change account password",
                 leading: Assets.icons.key.path,
                

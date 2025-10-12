@@ -12,6 +12,7 @@ class CustomListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: onTap,
       child: ListTile(
           leading: Image.asset(leading),
           trailing: showTrailing ? Assets.icons.arrowLeft.image() : null,

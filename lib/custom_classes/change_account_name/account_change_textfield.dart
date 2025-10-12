@@ -8,6 +8,7 @@ class AccountChangeTextfield extends StatelessWidget {
     return Container(
       child: TextField(
         decoration: InputDecoration(
+          contentPadding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
           enabledBorder: outlineInputBorder(),
           focusedBorder: outlineInputBorder(),
           hintText: "AccountName place holder",
@@ -21,8 +22,8 @@ class AccountChangeTextfield extends StatelessWidget {
     return OutlineInputBorder(
           borderRadius: BorderRadius.circular(15), 
           borderSide: BorderSide(
-            color: Colors.white, 
-            width: 1.0
+            color: Colors.grey, 
+            width: 0.8
           )
         );
   }
