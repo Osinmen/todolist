@@ -11,6 +11,61 @@
 
 import 'package:flutter/widgets.dart';
 
+class $AssetsCategoryGen {
+  const $AssetsCategoryGen();
+
+  /// File path: assets/category/addTask.png
+  AssetGenImage get addTask =>
+      const AssetGenImage('assets/category/addTask.png');
+
+  /// File path: assets/category/design.png
+  AssetGenImage get design => const AssetGenImage('assets/category/design.png');
+
+  /// File path: assets/category/grocery.png
+  AssetGenImage get grocery =>
+      const AssetGenImage('assets/category/grocery.png');
+
+  /// File path: assets/category/health.png
+  AssetGenImage get health => const AssetGenImage('assets/category/health.png');
+
+  /// File path: assets/category/home.png
+  AssetGenImage get home => const AssetGenImage('assets/category/home.png');
+
+  /// File path: assets/category/movie.png
+  AssetGenImage get movie => const AssetGenImage('assets/category/movie.png');
+
+  /// File path: assets/category/music.png
+  AssetGenImage get music => const AssetGenImage('assets/category/music.png');
+
+  /// File path: assets/category/social.png
+  AssetGenImage get social => const AssetGenImage('assets/category/social.png');
+
+  /// File path: assets/category/sport.png
+  AssetGenImage get sport => const AssetGenImage('assets/category/sport.png');
+
+  /// File path: assets/category/university.png
+  AssetGenImage get university =>
+      const AssetGenImage('assets/category/university.png');
+
+  /// File path: assets/category/work.png
+  AssetGenImage get work => const AssetGenImage('assets/category/work.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [
+    addTask,
+    design,
+    grocery,
+    health,
+    home,
+    movie,
+    music,
+    social,
+    sport,
+    university,
+    work,
+  ];
+}
+
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
@@ -134,6 +189,7 @@ class $AssetsOnboardingImagesGen {
 class Assets {
   const Assets._();
 
+  static const $AssetsCategoryGen category = $AssetsCategoryGen();
   static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
   static const $AssetsOnboardingImagesGen onboardingImages =
