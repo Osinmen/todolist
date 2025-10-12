@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:todolist/extensions/sized_box_extensions.dart';
 import 'package:todolist/gen/assets.gen.dart';
@@ -21,60 +22,81 @@ class _UserProfileState extends State<UserProfile> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: AppColors.background,
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            10.height,
-            Text("Profile", style: TextStyle(color: Colors.white, fontSize: 20),),
-            20.height,
-            CircleAvatar(backgroundColor: Colors.red, radius: 30),
-            20.height,
-            Text("username placeholder"),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Remainingtaskbutton(text: "10 tasks Left"),
-                20.width,
-                Remainingtaskbutton(text: "5 task done"),
-              ],
-            ),
-            20.height,
-            Align(alignment: Alignment.centerLeft,
-              child: Text("Settings", style: TextStyle(color: Colors.white))),
-            20.height,
-            CustomListTile(
-              islogout: false,
-              title: "App Setting",
-              leading: Assets.icons.setting2.path,
-              routeDestination: Signupscreen(),
-            ),
-          
-            CustomListTile(
-              title: "Change account name",
-              leading: Assets.icons.user.path,
-              routeDestination: TaskPage(),
-              islogout: true,
-            ),
-          
-            CustomListTile(
-              title: "Change account password",
-              leading: Assets.icons.key.path,
-              routeDestination: TaskPage(),
-              islogout: true,
-            ),
-               CustomListTile(
-              title: "Change account Image",
-              leading: Assets.icons.like.path,
-              routeDestination: TaskPage(),
-              islogout: true,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text("Uptodo", style: TextStyle(color: Colors.white))),
-            ),
-          ],
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              10.height,
+              Text("Profile", style: TextStyle(color: Colors.white, fontSize: 20),),
+              10.height,
+              CircleAvatar(backgroundColor: Colors.red, radius: 50),
+              10.height,
+              Text("username placeholder"),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Remainingtaskbutton(text: "10 tasks Left"),
+                  20.width,
+                  Remainingtaskbutton(text: "5 task done"),
+                ],
+              ),
+              20.height,
+              Padding(
+                padding: const EdgeInsets.only(left: 20),
+                child: Align(alignment: Alignment.centerLeft,
+                  child: Text("Settings", style: TextStyle(color: Colors.white))),
+              ),
+              20.height,
+              CustomListTile(
+                onTap: () {
+                  //todo implement functionality
+                },
+                title: "App Setting",
+                leading: Assets.icons.setting2.path,
+             
+              ),
+               Padding(
+                padding: const EdgeInsets.only(left: 20, top: 10, bottom: 10),
+                child: Align(alignment: Alignment.centerLeft,
+                  child: Text("Account", style: TextStyle(color: Colors.white))),
+              ),
+            
+              CustomListTile(
+                title: "Change account name",
+                leading: Assets.icons.user.path,
+               onTap: () {},
+                
+              ),
+            
+              CustomListTile(
+                onTap: () {},
+                title: "Change account password",
+                leading: Assets.icons.key.path,
+               
+              ),
+                 CustomListTile(
+                title: "Change account Image",
+                leading: Assets.icons.like.path,
+              onTap: () {},
+              ),
+              10.height,
+              Padding(
+                padding: const EdgeInsets.only(left: 20),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Uptodo", style: TextStyle(color: Colors.white))),
+              ),
+              CustomListTile(title: "About Us", leading: Assets.icons.menu.path, onTap: () {},), 
+              CustomListTile(title: "FAQ", leading: Assets.icons.infoCircle.path,  onTap: () {}), 
+              CustomListTile(title: "Help & Feedback", leading: Assets.icons.flash.path,  onTap: () {}),
+              CustomListTile(title: "Support Us", leading: Assets.icons.like.path,  onTap: () {
+
+              }),
+              CustomListTile(title: "Log out", leading: Assets.icons.logout.path,  onTap: () async{
+               await FirebaseAuth.instance.signOut();
+              }, showTrailing: false,)
+            ],
+          ),
         ),
       ),
     );
