@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 class CategoryTextfield extends StatelessWidget {
-  const CategoryTextfield({super.key});
+  final TextEditingController controller;
+  const CategoryTextfield({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: controller,
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15 ),
         enabledBorder: outlineInputBorder(), 

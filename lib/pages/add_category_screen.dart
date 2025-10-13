@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:todolist/custom_classes/category_class/category_class.dart';
 import 'package:todolist/custom_classes/icon_class/icon_class.dart';
 import 'package:todolist/extensions/sized_box_extensions.dart';
 import 'package:todolist/gen/assets.gen.dart';
+import 'package:todolist/models/category_model.dart';
 import 'package:todolist/providers/category_color_provider.dart';
+import 'package:todolist/providers/category_provider.dart';
 import 'package:todolist/providers/icon_provider.dart';
 import 'package:todolist/themes/colors.dart';
 import 'package:todolist/themes/textThemes.dart';
@@ -18,10 +21,17 @@ class AddCategoryScreen extends StatefulWidget {
 }
 
 class _AddCategoryScreenState extends State<AddCategoryScreen> {
+  TextEditingController controller = TextEditingController();
+  @override
+  void dispose() {
+    // TODO: implement dispose
+
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-  final iconProvider = Provider.of<IconProvider>(context);
     return SafeArea(
       child: Scaffold(
         backgroundColor: AppColors.background,
@@ -49,7 +59,7 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                 ),
               ),
               20.height,
-              CategoryTextfield(),
+              CategoryTextfield(controller: controller),
               20.height,
               Text(
                 "Category icon: ",
@@ -60,7 +70,7 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                 ),
               ),
               20.height,
-               GestureDetector(
+              GestureDetector(
                 onTap: () {
                   //implement the fucntionaliuty
                   IconClassLibrary.openIconLibrary(context);
@@ -69,19 +79,27 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                   builder: (context, value, child) {
                     return SizedBox(
                       height: 50,
-                      child: value.selectedIcon  != null ? Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(6), 
-                            color: AppColors.textPrimary
-                          ),
-                          child: Icon(value.selectedIcon, color: Colors.white, size: 30,),
-                      ) :const  IconCategoryButton()
+                      child: value.selectedIcon != null
+                          ? Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                                vertical: 6,
+                              ),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(6),
+                                color: AppColors.textPrimary,
+                              ),
+                              child: Icon(
+                                value.selectedIcon,
+                                color: Colors.white,
+                                size: 30,
+                              ),
+                            )
+                          : const IconCategoryButton(),
                     );
                   },
-                   
-                )
                 ),
+              ),
               20.height,
               Text(
                 "Category Color: ",
@@ -132,6 +150,50 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                       },
                     );
                   },
+                ),
+              ),
+              const Spacer(),
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        "Cancel",
+                        style: TextStyle(color: AppColors.secondaryButtonColor),
+                      ),
+                    ),
+                    100.width,
+                    TextButton(
+                      onPressed: () {
+                        final selectedIcon = context.read<IconProvider>().selectedIcon;
+                        context.read<CategoryProvider>().add(
+                          CategoryModel(
+                            name: controller.text.trim(),
+                            iconPath: selectedIcon != null ? selectedIcon.codePoint.toString() : "",
+                            categoryColor: context
+                                .read<CategoryColorProvider>()
+                                .selectedColor!,
+                          ),
+                        );
+                        CategoryClass.opencatergoryClass(context);
+                      },
+                      style: TextButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        backgroundColor: AppColors.secondaryButtonColor,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 6),
+                        child: Text(
+                          "Create Category",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],

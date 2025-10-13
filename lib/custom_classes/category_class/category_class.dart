@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:todolist/extensions/sized_box_extensions.dart';
 import 'package:todolist/gen/assets.gen.dart';
 import 'package:todolist/models/category_model.dart';
+import 'package:todolist/pages/add_category_screen.dart';
 import 'package:todolist/providers/category_provider.dart';
 import 'package:todolist/themes/colors.dart';
 
@@ -13,7 +14,7 @@ class CategoryClass {
       builder: (context) {
         return Dialog(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10)
+            borderRadius: BorderRadius.circular(10),
           ),
           backgroundColor: AppColors.textPrimary,
           insetPadding: const EdgeInsets.all(20),
@@ -35,21 +36,16 @@ class CategoryClass {
                         children: [
                           InkWell(
                             onTap: () {
-                              //work to do here
-                              // if(value.categories[index].name == "Create New") {
-                              //   value.categories.add(CategoryModel(
-                              //     name: , 
-                              //     iconPath: iconPath, 
-                              //     categoryColor: categoryColor
-                              //     ));
-                              // } else {
-                              //   Navigator.push(context, MaterialPageRoute(builder: (context) {
-                              //     return 
-                              //   }));
-                              // }
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return AddCategoryScreen();
+                                  },
+                                ),
+                              );
                             },
                             child: Container(
-                                                     
                               height: 50,
                               width: 50,
                               decoration: BoxDecoration(
@@ -64,11 +60,13 @@ class CategoryClass {
                             ),
                           ),
                           7.height,
-                          Text(value.categories[index].name.toString(), style: TextStyle(
-                            color: Colors.white, 
-                            fontWeight: FontWeight.bold
-                
-                          ),)
+                          Text(
+                            value.categories[index].name.toString(),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ],
                       ),
                     );
