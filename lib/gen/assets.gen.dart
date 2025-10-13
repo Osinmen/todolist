@@ -18,6 +18,9 @@ class $AssetsCategoryGen {
   AssetGenImage get addTask =>
       const AssetGenImage('assets/category/addTask.png');
 
+  /// File path: assets/category/check.png
+  AssetGenImage get check => const AssetGenImage('assets/category/check.png');
+
   /// File path: assets/category/design.png
   AssetGenImage get design => const AssetGenImage('assets/category/design.png');
 
@@ -53,6 +56,7 @@ class $AssetsCategoryGen {
   /// List of all assets
   List<AssetGenImage> get values => [
     addTask,
+    check,
     design,
     grocery,
     health,

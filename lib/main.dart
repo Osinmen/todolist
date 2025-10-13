@@ -9,7 +9,9 @@ import 'package:todolist/pages/authentication/signupScreen.dart';
 import 'package:todolist/pages/initialPages/onboarding.dart';
 import 'package:todolist/pages/taskPages/task_page.dart';
 import 'package:todolist/pages/user_profile/user_profile.dart';
+import 'package:todolist/providers/category_color_provider.dart';
 import 'package:todolist/providers/category_provider.dart';
+import 'package:todolist/providers/icon_provider.dart';
 import 'package:todolist/providers/task_provider.dart';
 import 'package:todolist/test.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -29,6 +31,12 @@ void main() async {
         ),
         ChangeNotifierProvider(create: (_) {
           return CategoryProvider();
+        }), 
+        ChangeNotifierProvider(create: (_) {
+          return CategoryColorProvider();
+        }), 
+        ChangeNotifierProvider(create: (_) {
+          return IconProvider();
         })
       ],
       child: const MyApp(),

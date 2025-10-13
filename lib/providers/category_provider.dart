@@ -67,7 +67,7 @@ final List<CategoryModel> _categories = [
     List<CategoryModel> get categories => _categories;
 
     void add(CategoryModel categoryBox) {
-      _categories.add(categoryBox);
+      _categories.insert(_categories.length - 1, categoryBox);
       notifyListeners();
     }
 

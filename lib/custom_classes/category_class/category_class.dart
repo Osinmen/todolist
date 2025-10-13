@@ -12,27 +12,44 @@ class CategoryClass {
       context: context,
       builder: (context) {
         return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10)
+          ),
           backgroundColor: AppColors.textPrimary,
           insetPadding: const EdgeInsets.all(20),
           child: Padding(
             padding: const EdgeInsets.all(15),
             child: Consumer<CategoryProvider>(
               builder: (context, value, child) {
-                return GestureDetector(
-                  child: GridView.builder(
-                    shrinkWrap: true,
-                    itemCount: value.categories.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisSpacing: 10,
-                      crossAxisCount: 3,
-                      mainAxisSpacing: 20,
-                    ),
-                    itemBuilder: (context, index) {
-                      return SizedBox(
-                        child: Column(
-                          children: [
-                            Container(
-                           
+                return GridView.builder(
+                  shrinkWrap: true,
+                  itemCount: value.categories.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisSpacing: 10,
+                    crossAxisCount: 3,
+                    mainAxisSpacing: 20,
+                  ),
+                  itemBuilder: (context, index) {
+                    return SizedBox(
+                      child: Column(
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              //work to do here
+                              // if(value.categories[index].name == "Create New") {
+                              //   value.categories.add(CategoryModel(
+                              //     name: , 
+                              //     iconPath: iconPath, 
+                              //     categoryColor: categoryColor
+                              //     ));
+                              // } else {
+                              //   Navigator.push(context, MaterialPageRoute(builder: (context) {
+                              //     return 
+                              //   }));
+                              // }
+                            },
+                            child: Container(
+                                                     
                               height: 50,
                               width: 50,
                               decoration: BoxDecoration(
@@ -45,17 +62,17 @@ class CategoryClass {
                                 value.categories[index].iconPath.toString(),
                               ),
                             ),
-                            7.height,
-                            Text(value.categories[index].name.toString(), style: TextStyle(
-                              color: Colors.white, 
-                              fontWeight: FontWeight.bold
-
-                            ),)
-                          ],
-                        ),
-                      );
-                    },
-                  ),
+                          ),
+                          7.height,
+                          Text(value.categories[index].name.toString(), style: TextStyle(
+                            color: Colors.white, 
+                            fontWeight: FontWeight.bold
+                
+                          ),)
+                        ],
+                      ),
+                    );
+                  },
                 );
               },
             ),
