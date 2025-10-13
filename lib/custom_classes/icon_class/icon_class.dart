@@ -40,8 +40,7 @@ class IconClassLibrary {
 
                           itemCount: value.icons.length,
                           itemBuilder: (context, index) {
-                            final isIconSelected =
-                                value.selectedIcon == value.icons[index];
+                           
                             return InkWell(
                               onTap: () {
                                 value.setSelectedIcon(value.icons[index]);

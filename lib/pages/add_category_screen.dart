@@ -65,13 +65,22 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                   //implement the fucntionaliuty
                   IconClassLibrary.openIconLibrary(context);
                 },
-                child: iconProvider.selectedIcon == iconProvider.icons ? Container(
-                  color: AppColors.textPrimary,
-                  padding: const EdgeInsets.all(3),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(7)
-                  ),
-                  child: Icon(iconProvider.selectedIcon, size: 30, color: Colors.white,)) : IconCategoryButton()
+                child: Consumer<IconProvider>(
+                  builder: (context, value, child) {
+                    return SizedBox(
+                      height: 50,
+                      child: value.selectedIcon  != null ? Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(6), 
+                            color: AppColors.textPrimary
+                          ),
+                          child: Icon(value.selectedIcon, color: Colors.white, size: 30,),
+                      ) :const  IconCategoryButton()
+                    );
+                  },
+                   
+                )
                 ),
               20.height,
               Text(
