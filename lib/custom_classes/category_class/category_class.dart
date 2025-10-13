@@ -1,91 +1,63 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todolist/extensions/sized_box_extensions.dart';
 import 'package:todolist/gen/assets.gen.dart';
 import 'package:todolist/models/category_model.dart';
+import 'package:todolist/providers/category_provider.dart';
+import 'package:todolist/themes/colors.dart';
 
 class CategoryClass {
-  static Future<void> catergoryClass(BuildContext context) async {
-    List<CategoryModel> categories = [
-      CategoryModel(
-        name: 'Grocery',
-        iconPath: Assets.category.grocery.path,
-        categoryColor: const Color(0xFFCCFF80),
-      ),
-      CategoryModel(
-        name: 'Work',
-        iconPath: '', // You'll fill this
-        categoryColor: const Color(0xFFFF9680),
-      ),
-      CategoryModel(
-        name: 'Sport',
-        iconPath: '', // You'll fill this
-        categoryColor: const Color(0xFF80FFFF),
-      ),
-      CategoryModel(
-        name: 'Design',
-        iconPath: '', // You'll fill this
-        categoryColor: const Color(0xFF80FFD9),
-      ),
-      CategoryModel(
-        name: 'University',
-        iconPath: '', // You'll fill this
-        categoryColor: const Color(0xFF809CFF),
-      ),
-      CategoryModel(
-        name: 'Social',
-        iconPath: '', // You'll fill this
-        categoryColor: const Color(0xFFFF80EB),
-      ),
-      CategoryModel(
-        name: 'Music',
-        iconPath: '', // You'll fill this
-        categoryColor: const Color(0xFFFC80FF),
-      ),
-      CategoryModel(
-        name: 'Health',
-        iconPath: '', // You'll fill this
-        categoryColor: const Color(0xFF80FFA3),
-      ),
-      CategoryModel(
-        name: 'Movie',
-        iconPath: '', // You'll fill this
-        categoryColor: const Color(0xFF80D1FF),
-      ),
-      CategoryModel(
-        name: 'Home',
-        iconPath: '', // You'll fill this
-        categoryColor: const Color(0xFFFFCC80),
-      ),
-      CategoryModel(
-        name: 'Create New',
-        iconPath: '', // You'll fill this
-        categoryColor: const Color(0xFF80FFD1),
-      ),
-    ];
+  static Future<void> opencatergoryClass(BuildContext context) async {
     await showDialog(
       context: context,
       builder: (context) {
         return Dialog(
+          backgroundColor: AppColors.textPrimary,
           insetPadding: const EdgeInsets.all(20),
           child: Padding(
             padding: const EdgeInsets.all(15),
-            child: IntrinsicHeight(
-              child: GridView.builder(
-                itemCount: categories.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                ),
-                itemBuilder: (context, index) {
-                  final category = categories[index];
-                  return Container(
-                    height: 60,
-                    width: 60,
-                    decoration: BoxDecoration(color: category.categoryColor),
-                    child: Center(
-                      child: Image.asset(category.iconPath.toString()),
+            child: Consumer<CategoryProvider>(
+              builder: (context, value, child) {
+                return GestureDetector(
+                  child: GridView.builder(
+                    shrinkWrap: true,
+                    itemCount: value.categories.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisSpacing: 10,
+                      crossAxisCount: 3,
+                      mainAxisSpacing: 20,
                     ),
-                  );
-                },
-              ),
+                    itemBuilder: (context, index) {
+                      return SizedBox(
+                        child: Column(
+                          children: [
+                            Container(
+                           
+                              height: 50,
+                              width: 50,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: value.categories[index].categoryColor,
+                              ),
+                              child: Image.asset(
+                                height: 70,
+                                width: 60,
+                                value.categories[index].iconPath.toString(),
+                              ),
+                            ),
+                            7.height,
+                            Text(value.categories[index].name.toString(), style: TextStyle(
+                              color: Colors.white, 
+                              fontWeight: FontWeight.bold
+
+                            ),)
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                );
+              },
             ),
           ),
         );

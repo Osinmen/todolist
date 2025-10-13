@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todolist/providers/task_model.dart';
+import 'package:todolist/models/task_model.dart';
 
 class TaskProvider extends ChangeNotifier {
   //implement provider task management here

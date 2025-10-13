@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todolist/extensions/sized_box_extensions.dart';
 import 'package:todolist/gen/assets.gen.dart';
-import 'package:todolist/providers/task_model.dart';
+import 'package:todolist/models/task_model.dart';
 import 'package:todolist/providers/task_provider.dart';
 import 'package:todolist/test.dart';
 import 'package:todolist/themes/colors.dart';
@@ -58,14 +58,9 @@ class _TaskPageState extends State<TaskPage> {
           ),
         ],
       ),
-      body: StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection("user_tasks")
-            .where("creator", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-            .snapshots(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return SingleChildScrollView(
+      body: Consumer<TaskProvider>(builder: (context, value, child) {
+      if(value.list.isEmpty) {
+        return SingleChildScrollView(
               child: Column(
                 children: [
                   Center(
@@ -90,42 +85,19 @@ class _TaskPageState extends State<TaskPage> {
                 ],
               ),
             );
-          } else if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            throw Exception("something wrong pleae restatrt");
-          } else if (snapshot.hasData) {
-            return Expanded(
-              child: ListView.builder(
-                itemCount: snapshot.data!.docs.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: Dismissible(
-                      key: ValueKey(index),
-                      onDismissed: (direction) {
-                        if (direction == DismissDirection.endToStart) {
-                          FirebaseFirestore.instance
-                              .collection("saved_tasks")
-                              .doc()
-                              .delete();
-                        }
-                      },
-                      child: TaskCard(
-                        title: snapshot.data!.docs[index].data()["title"],
-                        description: snapshot.data!.docs[index]
-                            .data()["description"],
-                      ),
-                    ),
-                  );
-                },
-              ),
-            );
-          } else {
-            return Text("hmm i dnt know still try to reload");
-          }
-        },
-      ),
+      }  else {
+        return ListView.builder(
+          itemCount: value.list.length,
+          itemBuilder: (context, index) {
+          return Container(
+            color: AppColors.textPrimary,
+            child: ListTile(
+            
+            ),
+          );
+        });
+      }
+      }),
 
       bottomNavigationBar: BottomBar(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

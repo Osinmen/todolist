@@ -1,12 +1,15 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:todolist/custom_classes/category_class/category_class.dart';
 import 'package:todolist/firebase_options.dart';
+import 'package:todolist/pages/add_category_screen.dart';
 import 'package:todolist/pages/authentication/loginScreen.dart';
 import 'package:todolist/pages/authentication/signupScreen.dart';
 import 'package:todolist/pages/initialPages/onboarding.dart';
 import 'package:todolist/pages/taskPages/task_page.dart';
 import 'package:todolist/pages/user_profile/user_profile.dart';
+import 'package:todolist/providers/category_provider.dart';
 import 'package:todolist/providers/task_provider.dart';
 import 'package:todolist/test.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -24,6 +27,9 @@ void main() async {
             return TaskProvider();
           },
         ),
+        ChangeNotifierProvider(create: (_) {
+          return CategoryProvider();
+        })
       ],
       child: const MyApp(),
     ),
@@ -42,7 +48,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const UserProfile()
+      home: const AddCategoryScreen()
     );
   }
 }
