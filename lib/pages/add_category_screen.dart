@@ -89,10 +89,11 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                                 borderRadius: BorderRadius.circular(6),
                                 color: AppColors.textPrimary,
                               ),
-                              child: Icon(
-                                value.selectedIcon,
+                              child: Image.asset(
+                                value.selectedIcon.toString(),
                                 color: Colors.white,
-                                size: 30,
+                                height: 30,
+                                width: 30,
                               ),
                             )
                           : const IconCategoryButton(),
@@ -171,7 +172,7 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                         context.read<CategoryProvider>().add(
                           CategoryModel(
                             name: controller.text.trim(),
-                            iconPath: selectedIcon != null ? selectedIcon.codePoint.toString() : "",
+                            iconPath: selectedIcon,
                             categoryColor: context
                                 .read<CategoryColorProvider>()
                                 .selectedColor!,

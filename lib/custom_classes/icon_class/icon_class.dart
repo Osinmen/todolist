@@ -46,10 +46,19 @@ class IconClassLibrary {
                                 value.setSelectedIcon(value.icons[index]);
                                 Navigator.pop(context);
                               },
-                              child: Icon(
-                                value.icons[index],
-                                size: 35,
-                                color: Colors.white,
+                              child: Padding(
+                                padding: const EdgeInsets.all(30),
+                                child: SizedBox(
+                                  height: 20,
+                                  width: 20,
+                                  child: Image.asset(
+                                    fit: BoxFit.contain,
+                                    value.icons[index].toString(),
+                                    height: 10,
+                                    width: 10,
+                                    color: Colors.white,
+                                  ),
+                                ),
                               ),
                             );
                           },

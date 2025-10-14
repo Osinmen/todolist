@@ -1,44 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:todolist/gen/assets.gen.dart';
 
 class IconProvider extends ChangeNotifier{ 
 
-    final List<IconData> _icons = [
-    Icons.shopping_cart,
-    Icons.work,
-    Icons.sports_soccer,
-    Icons.design_services,
-    Icons.school,
-    Icons.people,
-    Icons.music_note,
-    Icons.health_and_safety,
-    Icons.movie,
-    Icons.home,
-    Icons.add,
-    Icons.book,
-    Icons.camera_alt,
-    Icons.computer,
-    Icons.fastfood,
-    Icons.flight,
-    Icons.directions_car,
-    Icons.pets,
-    Icons.phone,
-    Icons.wifi,
-    Icons.games,
-    Icons.chat,
-    Icons.fitness_center,
-    Icons.language,
-    Icons.nightlight,
-    Icons.palette,
-    Icons.favorite,
-    Icons.science,
-    Icons.lightbulb,
-  ];
-  List<IconData> get icons => _icons;
+  final List<String> _icons = [
 
-  IconData? _selectedIcon;
-  IconData? get selectedIcon => _selectedIcon;
+    Assets.userIcons.book.path, 
+    Assets.userIcons.check.path,
+    Assets.userIcons.coffeeCupOnAPlateBlackSilhouettes.path, 
+    Assets.userIcons.facetimeButton.path, 
+    Assets.userIcons.flagBlackShape.path,
+    Assets.userIcons.mobilePhone.path, 
+    Assets.userIcons.photoCamera.path, 
+    Assets.userIcons.fighterJetSilhouette.path, 
+    Assets.userIcons.speechBubblesCommentOption.path
+  ];
+  List<String> get icons => _icons;
+
+  String? _selectedIcon;
+  String? get selectedIcon => _selectedIcon;
   
-  void setSelectedIcon(IconData icon) {
+  void setSelectedIcon(String icon) {
     _selectedIcon = icon;
     notifyListeners();
   } 
