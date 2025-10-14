@@ -18,6 +18,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:todolist/test1.dart';
 import 'package:todolist/themes/colors.dart';
 
+final GlobalKey<ScaffoldMessengerState> rootScaffoldMessenger = GlobalKey<ScaffoldMessengerState>();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -39,8 +41,10 @@ void main() async {
           return IconProvider();
         })
       ],
+      
       child: const MyApp(),
     ),
+    
   );
 }
 
@@ -56,7 +60,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const UserProfile()
+      home: const AddCategoryScreen(),
+      scaffoldMessengerKey: rootScaffoldMessenger,
     );
   }
 }

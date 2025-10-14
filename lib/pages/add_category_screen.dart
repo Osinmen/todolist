@@ -4,12 +4,15 @@ import 'package:todolist/custom_classes/category_class/category_class.dart';
 import 'package:todolist/custom_classes/icon_class/icon_class.dart';
 import 'package:todolist/extensions/sized_box_extensions.dart';
 import 'package:todolist/gen/assets.gen.dart';
+import 'package:todolist/main.dart';
 import 'package:todolist/models/category_model.dart';
 import 'package:todolist/providers/category_color_provider.dart';
 import 'package:todolist/providers/category_provider.dart';
 import 'package:todolist/providers/icon_provider.dart';
 import 'package:todolist/themes/colors.dart';
 import 'package:todolist/themes/textThemes.dart';
+import 'package:todolist/widgets/buttons/colour_action_button.dart';
+import 'package:todolist/widgets/buttons/non_coloured_action_button.dart';
 import 'package:todolist/widgets/category_screen_widgets/category_textfield.dart';
 import 'package:todolist/widgets/category_screen_widgets/icon_button.dart';
 
@@ -154,24 +157,42 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                 ),
               ),
               const Spacer(),
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        "Cancel",
-                        style: TextStyle(color: AppColors.secondaryButtonColor),
-                      ),
-                    ),
-                    100.width,
-                    TextButton(
-                      onPressed: () {
-                        final selectedIcon = context.read<IconProvider>().selectedIcon;
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                Expanded(
+                  child: NonColouredActionButton(
+                    buttonTitle: "Cancel",
+                    onPressed: () {
+                      Navigator.pop(context);
+                  
+                })
+                ),
+                10.width,
+                Expanded(
+                  child: ColouredActionButton(
+                    buttonTitle: "Create Category",
+                    onPressed: () {
+                     if (controller.text.trim() == "Create User") {
+                          rootScaffoldMessenger.currentState?.showSnackBar(
+                            SnackBar(
+                              duration: const Duration(seconds: 5),
+                              content: Text(
+                                "you cannot use this category name ",
+                              ),
+                            ),
+                          );
+                        }
+                        final selectedIcon = context
+                            .read<IconProvider>()
+                            .selectedIcon;
                         context.read<CategoryProvider>().add(
                           CategoryModel(
-                            name: controller.text.trim(),
+                            name: controller.text.trim() == "Create User"
+                                ? throw Exception(
+                                    "you cannot use this name please",
+                                  )
+                                : controller.text.trim(),
                             iconPath: selectedIcon,
                             categoryColor: context
                                 .read<CategoryColorProvider>()
@@ -179,24 +200,12 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                           ),
                         );
                         CategoryClass.opencatergoryClass(context);
-                      },
-                      style: TextButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        backgroundColor: AppColors.secondaryButtonColor,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 6),
-                        child: Text(
-                          "Create Category",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  }),
+                ) 
+              
+                ],
               ),
+              20.height
             ],
           ),
         ),

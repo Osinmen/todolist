@@ -4,16 +4,17 @@ import 'package:todolist/gen/assets.gen.dart';
 class IconProvider extends ChangeNotifier{ 
 
   final List<String> _icons = [
-
-    Assets.userIcons.book.path, 
-    Assets.userIcons.check.path,
-    Assets.userIcons.coffeeCupOnAPlateBlackSilhouettes.path, 
-    Assets.userIcons.facetimeButton.path, 
-    Assets.userIcons.flagBlackShape.path,
-    Assets.userIcons.mobilePhone.path, 
-    Assets.userIcons.photoCamera.path, 
-    Assets.userIcons.fighterJetSilhouette.path, 
-    Assets.userIcons.speechBubblesCommentOption.path
+ Assets.category.grocery.path,
+  Assets.category.work.path,
+  Assets.category.sport.path,
+  Assets.category.design.path,
+  Assets.category.university.path,
+  Assets.category.social.path,
+  Assets.category.music.path,
+  Assets.category.health.path,
+  Assets.category.movie.path,
+  Assets.category.home.path,
+  Assets.category.addTask.path,
   ];
   List<String> get icons => _icons;
 

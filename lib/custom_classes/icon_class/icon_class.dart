@@ -37,7 +37,6 @@ class IconClassLibrary {
                                 crossAxisCount: 3,
                               ),
                           scrollDirection: Axis.vertical,
-
                           itemCount: value.icons.length,
                           itemBuilder: (context, index) {
                            
