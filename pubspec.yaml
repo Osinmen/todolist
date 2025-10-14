@@ -35,6 +35,7 @@ flutter:
     - assets/icons/
     - assets/onboardingImages/
     - assets/category/
+    - assets/user_icons/
 
 flutter_gen:
   assets:

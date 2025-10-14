@@ -36,14 +36,18 @@ class CategoryClass {
                         children: [
                           InkWell(
                             onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) {
-                                    return AddCategoryScreen();
-                                  },
-                                ),
-                              );
+                              print(value.categories.length);
+                              if (value.categories[index].name ==
+                                  "Create New") {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return AddCategoryScreen();
+                                    },
+                                  ),
+                                );
+                              }
                             },
                             child: Container(
                               height: 50,

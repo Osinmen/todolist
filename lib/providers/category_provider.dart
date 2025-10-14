@@ -71,4 +71,6 @@ final List<CategoryModel> _categories = [
       notifyListeners();
     }
 
+    
+
 }

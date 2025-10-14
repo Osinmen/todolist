@@ -190,6 +190,64 @@ class $AssetsOnboardingImagesGen {
   List<AssetGenImage> get values => [pageOne, pageThree, pageTwo];
 }
 
+class $AssetsUserIconsGen {
+  const $AssetsUserIconsGen();
+
+  /// File path: assets/user_icons/book.png
+  AssetGenImage get book => const AssetGenImage('assets/user_icons/book.png');
+
+  /// File path: assets/user_icons/check.png
+  AssetGenImage get check => const AssetGenImage('assets/user_icons/check.png');
+
+  /// File path: assets/user_icons/coffee-cup-on-a-plate-black-silhouettes.png
+  AssetGenImage get coffeeCupOnAPlateBlackSilhouettes => const AssetGenImage(
+    'assets/user_icons/coffee-cup-on-a-plate-black-silhouettes.png',
+  );
+
+  /// File path: assets/user_icons/cog-wheel-silhouette.png
+  AssetGenImage get cogWheelSilhouette =>
+      const AssetGenImage('assets/user_icons/cog-wheel-silhouette.png');
+
+  /// File path: assets/user_icons/facetime-button.png
+  AssetGenImage get facetimeButton =>
+      const AssetGenImage('assets/user_icons/facetime-button.png');
+
+  /// File path: assets/user_icons/fighter-jet-silhouette.png
+  AssetGenImage get fighterJetSilhouette =>
+      const AssetGenImage('assets/user_icons/fighter-jet-silhouette.png');
+
+  /// File path: assets/user_icons/flag-black-shape.png
+  AssetGenImage get flagBlackShape =>
+      const AssetGenImage('assets/user_icons/flag-black-shape.png');
+
+  /// File path: assets/user_icons/mobile-phone.png
+  AssetGenImage get mobilePhone =>
+      const AssetGenImage('assets/user_icons/mobile-phone.png');
+
+  /// File path: assets/user_icons/photo-camera.png
+  AssetGenImage get photoCamera =>
+      const AssetGenImage('assets/user_icons/photo-camera.png');
+
+  /// File path: assets/user_icons/speech-bubbles-comment-option.png
+  AssetGenImage get speechBubblesCommentOption => const AssetGenImage(
+    'assets/user_icons/speech-bubbles-comment-option.png',
+  );
+
+  /// List of all assets
+  List<AssetGenImage> get values => [
+    book,
+    check,
+    coffeeCupOnAPlateBlackSilhouettes,
+    cogWheelSilhouette,
+    facetimeButton,
+    fighterJetSilhouette,
+    flagBlackShape,
+    mobilePhone,
+    photoCamera,
+    speechBubblesCommentOption,
+  ];
+}
+
 class Assets {
   const Assets._();
 
@@ -198,6 +256,7 @@ class Assets {
   static const $AssetsImagesGen images = $AssetsImagesGen();
   static const $AssetsOnboardingImagesGen onboardingImages =
       $AssetsOnboardingImagesGen();
+  static const $AssetsUserIconsGen userIcons = $AssetsUserIconsGen();
 }
 
 class AssetGenImage {
