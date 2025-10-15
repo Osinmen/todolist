@@ -11,6 +11,7 @@ import 'package:todolist/pages/taskPages/task_page.dart';
 import 'package:todolist/pages/user_profile/user_profile.dart';
 import 'package:todolist/providers/category_color_provider.dart';
 import 'package:todolist/providers/category_provider.dart';
+import 'package:todolist/providers/date_provder.dart';
 import 'package:todolist/providers/icon_provider.dart';
 import 'package:todolist/providers/task_provider.dart';
 import 'package:todolist/test.dart';
@@ -39,6 +40,9 @@ void main() async {
         }), 
         ChangeNotifierProvider(create: (_) {
           return IconProvider();
+        }), 
+        ChangeNotifierProvider(create: (context) {
+          return DateProvider();
         })
       ],
       
@@ -60,7 +64,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const AddCategoryScreen(),
+      home: const UserProfile(),
       scaffoldMessengerKey: rootScaffoldMessenger,
     );
   }

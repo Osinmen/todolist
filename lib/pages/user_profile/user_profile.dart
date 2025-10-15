@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:todolist/custom_classes/category_class/category_class.dart';
 import 'package:todolist/custom_classes/change_account_name/changeAccountName.dart';
+import 'package:todolist/custom_classes/date_time_class/date_picker.dart';
 import 'package:todolist/extensions/sized_box_extensions.dart';
 import 'package:todolist/gen/assets.gen.dart';
 import 'package:todolist/pages/authentication/signupScreen.dart';
@@ -133,7 +134,7 @@ class _UserProfileState extends State<UserProfile> {
                 title: "Log out",
                 leading: Assets.icons.logout.path,
                 onTap: () async {
-                  await FirebaseAuth.instance.signOut();
+              DatePicker.pickDate(context);
                 },
                 showTrailing: false,
               ),
