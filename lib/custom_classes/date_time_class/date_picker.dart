@@ -5,7 +5,8 @@ import 'package:todolist/themes/colors.dart';
 
 class DatePicker {
   static Future<void> pickDate(BuildContext context) async {
-    final dateProvider = Provider.of<DateProvider>(context);
+    final dateProvider = Provider.of<DateProvider>(context, listen: false);
+    final selectedDateProvider = Provider.of<DateProvider>(context, listen: false);
     final pickedDate = await showDatePicker(
       context: context,
       firstDate: DateTime(2025),
@@ -15,19 +16,15 @@ class DatePicker {
         return Theme(
           data: ThemeData.dark().copyWith(
             dialogBackgroundColor: AppColors.textPrimary
-
           ),
-        child: Container(
-          color: Colors.yellow,
-          height: 50,
-          width: 50,
-        ),
+        child: child!
         );
       }
     );
-
+    
     if(pickedDate != null) {
       dateProvider.setSelectedDate(pickedDate);
+      print("picked date: ${selectedDateProvider.selectedDate}");
     }
   }
 }
