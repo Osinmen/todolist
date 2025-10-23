@@ -11,7 +11,14 @@ class TaskProvider extends ChangeNotifier {
       _lists.add(tasks);
       notifyListeners();
   }
+  TaskModel? _selectedTask;
+  TaskModel? get selectedTask  => _selectedTask;
 
+  //create a setter 
+  void setSelectedTask(TaskModel task) {
+    _selectedTask = task;
+    notifyListeners();
+  }
 
   void clear_all() {
     _lists.clear();

@@ -44,15 +44,15 @@ class Changeaccountname {
                       ),
                       TextButton(
                         onPressed: () {},
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal:20),
-                          child: Text("Edit", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),)),
                         style: TextButton.styleFrom(
                           backgroundColor: AppColors.secondaryButtonColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(6),
                           ),
                         ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal:20),
+                          child: Text("Edit", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),)),
                       ),
                     ],
                   ),

@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:todolist/custom_classes/add_task_class/add_task.dart';
 import 'package:todolist/extensions/sized_box_extensions.dart';
 import 'package:todolist/gen/assets.gen.dart';
 import 'package:todolist/models/task_model.dart';
+import 'package:todolist/providers/category_provider.dart';
 import 'package:todolist/providers/task_provider.dart';
 import 'package:todolist/test.dart';
 import 'package:todolist/themes/colors.dart';
@@ -24,16 +26,16 @@ class _TaskPageState extends State<TaskPage> {
   final TextEditingController descriptionController = TextEditingController();
   //function to ad tasks to firebase firestore using
 
-  Future<void> addTasksToDb() async {
-    final tasks = await FirebaseFirestore.instance
-        .collection("user_tasks")
-        .add({
-          "title": controller.text.trim(),
-          "Date Created": FieldValue.serverTimestamp(),
-          "creator": FirebaseAuth.instance.currentUser!.uid,
-          "description": descriptionController.text.trim(),
-        });
-  }
+  // Future<void> addTasksToDb() async {
+  //   final tasks = await FirebaseFirestore.instance
+  //       .collection("user_tasks")
+  //       .add({
+  //         "title": controller.text.trim(),
+  //         "Date Created": FieldValue.serverTimestamp(),
+  //         "creator": FirebaseAuth.instance.currentUser!.uid,
+  //         "description": descriptionController.text.trim(),
+  //       });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -91,9 +93,7 @@ class _TaskPageState extends State<TaskPage> {
           itemBuilder: (context, index) {
           return Container(
             color: AppColors.textPrimary,
-            child: ListTile(
-            
-            ),
+            child:TaskCard(taskCategory: context.read<CategoryProvider>().selectedCategory!.name.toString(), taskTitle: value.list[index].title.toString(), taskDescription:value.list[index].description.toString() ) 
           );
         });
       }
@@ -109,85 +109,13 @@ class _TaskPageState extends State<TaskPage> {
         child: Assets.icons.add.image(),
         onPressed: () {
           //implement to do action
-          _openScreenDialog();
+          AddTask.openScreenDialog(context);
         },
       ),
     );
   }
 
-  Future<void> _openScreenDialog() async {
-    await showDialog(
-      context: context,
-      builder: (context) {
-        return Dialog(
-          backgroundColor: AppColors.textPrimary,
-          insetPadding: EdgeInsets.all(20),
-          child: SizedBox(
-            height: 300,
-            child: Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Add Task",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14,
-                    ),
-                  ),
-                  015.height,
-                  TextField(
-                    style: TextStyle(color: Colors.white, fontSize: 15),
-                    controller: controller,
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.symmetric(
-                        vertical: 15,
-                        horizontal: 10,
-                      ),
-                      hintText: "Add Task Here",
-                      hintStyle: AppTextStyles.heading2,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide(
-                          width: 1.0,
-                          color: AppColors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                  10.height,
-                  TextField(
-                    controller: descriptionController,
-                    decoration: InputDecoration(
-                      hintText: "Description",
-                      hintStyle: AppTextStyles.heading2,
-                      border: UnderlineInputBorder(borderSide: BorderSide.none),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide(
-                          width: 1.0,
-                          color: AppColors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Center(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        addTasksToDb();
-                        Navigator.pop(context);
-                      },
-                      child: Text("Add Task"),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
+
+
+  
 }

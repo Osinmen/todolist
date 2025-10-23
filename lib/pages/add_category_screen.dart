@@ -173,16 +173,7 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                   child: ColouredActionButton(
                     buttonTitle: "Create Category",
                     onPressed: () {
-                     if (controller.text.trim() == "Create User") {
-                          rootScaffoldMessenger.currentState?.showSnackBar(
-                            SnackBar(
-                              duration: const Duration(seconds: 5),
-                              content: Text(
-                                "you cannot use this category name ",
-                              ),
-                            ),
-                          );
-                        }
+                    
                         final selectedIcon = context
                             .read<IconProvider>()
                             .selectedIcon;

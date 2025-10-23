@@ -65,12 +65,27 @@ final List<CategoryModel> _categories = [
   //this is the getter that will be available outside the class
 
     List<CategoryModel> get categories => _categories;
+    CategoryModel? _selectedCategory;
+    CategoryModel? get selectedCategory => _selectedCategory;
 
+    //setter
+
+    void setSelectedCategory(CategoryModel category) {
+      //set the value to take the category
+     _selectedCategory = category;
+    }
     void add(CategoryModel categoryBox) {
       _categories.insert(_categories.length - 1, categoryBox);
       notifyListeners();
     }
 
-    
-
 }
+
+//from the above provider class when the selected caregory is selected what happens is that
+/* 
+from the above what happens is that we have a getter and a setter which takes hthe class
+category
+so when the user clicks on a specific button for instance
+the category uses the setter to add the selected clicked category into theother page
+that takes the particular value i want to add
+*/
