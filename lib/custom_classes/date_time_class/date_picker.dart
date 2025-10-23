@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:todolist/custom_classes/category_class/category_class.dart';
 import 'package:todolist/pages/add_category_screen.dart';
 import 'package:todolist/providers/date_provder.dart';
 import 'package:todolist/themes/colors.dart';
@@ -32,9 +33,7 @@ class DatePicker {
 if(!context.mounted) return;
     if (pickedDate != null) {
       dateProvider.setSelectedDate(pickedDate);
-      Navigator.push(context, MaterialPageRoute(builder: (context) {
-        return const AddCategoryScreen();
-      }));
+     CategoryClass.opencatergoryClass(context);
       print("Picked date: ${pickedDate.toIso8601String()}");
     } else {
       print("User cancelled date selection");
