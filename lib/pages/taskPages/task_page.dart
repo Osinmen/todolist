@@ -60,9 +60,10 @@ class _TaskPageState extends State<TaskPage> {
           ),
         ],
       ),
-      body: Consumer<TaskProvider>(builder: (context, value, child) {
-      if(value.list.isEmpty) {
-        return SingleChildScrollView(
+      body: Consumer<TaskProvider>(
+        builder: (context, value, child) {
+          if (value.list.isEmpty) {
+            return SingleChildScrollView(
               child: Column(
                 children: [
                   Center(
@@ -87,17 +88,27 @@ class _TaskPageState extends State<TaskPage> {
                 ],
               ),
             );
-      }  else {
-        return ListView.builder(
-          itemCount: value.list.length,
-          itemBuilder: (context, index) {
-          return Container(
-            color: AppColors.textPrimary,
-            child:TaskCard(taskCategory: context.read<CategoryProvider>().selectedCategory!.name.toString(), taskTitle: value.list[index].title.toString(), taskDescription:value.list[index].description.toString() ) 
-          );
-        });
-      }
-      }),
+          } else {
+            return ListView.builder(
+              itemCount: value.list.length,
+              itemBuilder: (context, index) {
+                return Container(
+                  color: AppColors.textPrimary,
+                  child: TaskCard(
+                    taskCategory: context
+                        .read<CategoryProvider>()
+                        .selectedCategory!
+                        .name
+                        .toString(),
+                    taskTitle: value.list[index].title.toString(),
+                    taskDescription: value.list[index].description.toString(),
+                  ),
+                );
+              },
+            );
+          }
+        },
+      ),
 
       bottomNavigationBar: BottomBar(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -105,7 +116,6 @@ class _TaskPageState extends State<TaskPage> {
         elevation: 0.0,
         backgroundColor: AppColors.secondaryButtonColor,
         shape: const CircleBorder(),
-
         child: Assets.icons.add.image(),
         onPressed: () {
           //implement to do action
@@ -114,8 +124,4 @@ class _TaskPageState extends State<TaskPage> {
       ),
     );
   }
-
-
-
-  
 }

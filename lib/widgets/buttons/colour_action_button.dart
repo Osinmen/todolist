@@ -8,20 +8,23 @@ class ColouredActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-     height: 53,
-      decoration: BoxDecoration(
-        color: AppColors.secondaryButtonColor, 
-        borderRadius: BorderRadius.circular(6)
-      ),
-      child: Center(
-        child: Text(
-          buttonTitle.toString(),
-          style: TextStyle(
-            fontSize: 14,
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            backgroundColor: AppColors.secondaryButtonColor
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+       height: 53,
+        decoration: BoxDecoration(
+          color: AppColors.secondaryButtonColor, 
+          borderRadius: BorderRadius.circular(6)
+        ),
+        child: Center(
+          child: Text(
+            buttonTitle.toString(),
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              backgroundColor: AppColors.secondaryButtonColor
+            ),
           ),
         ),
       ),

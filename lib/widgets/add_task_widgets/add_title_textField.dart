@@ -25,19 +25,16 @@ class _AddTitleTextfieldState extends State<AddTitleTextfield> {
   @override
   Widget build(BuildContext context) {
 
-      var selected_task = context.read<TaskProvider>().selectedTask!;
+   var selected_task = context.read<TaskProvider>().selectedTask;
 
-      if(selected_task != null && selected_task.title != titleController)  {
-        selected_task.title = titleController.text.trim();
-      }
-
+if (selected_task != null && selected_task.title != titleController.text.trim()) {
+  selected_task.title = titleController.text.trim();
+}
 
     return TextField(
       style: TextStyle(color: Colors.white, fontSize: 15),
       controller: titleController,
-      onChanged: (value) {
-        selected_task.title = value;
-      },
+    
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.symmetric(
           vertical: 15,

@@ -14,6 +14,3 @@ class DateProvider extends ChangeNotifier {
 }
 
 
-// the very probelm that am having right now is that i want to fina a way to add this time to 
-//the list of providers such taht when something is clicked the time is then stored on this provider and 
-//then used to design my UI
