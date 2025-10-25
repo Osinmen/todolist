@@ -92,7 +92,7 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(6),
                                   color: AppColors.textPrimary,
-                                ),
+                                ),  
                                 child: Image.asset(
                                   value.selectedIcon.toString(),
                                   color: Colors.white,
